@@ -1,1 +1,5 @@
-/home/roger/caffe1/caffe/examples/3d_data/train1.h5
+/Users/trullro/Documents/ct_data_reader/RT_import/train1.h5
+/Users/trullro/Documents/ct_data_reader/RT_import/train2.h5
+/Users/trullro/Documents/ct_data_reader/RT_import/train3.h5
+/Users/trullro/Documents/ct_data_reader/RT_import/train4.h5
+/Users/trullro/Documents/ct_data_reader/RT_import/train5.h5

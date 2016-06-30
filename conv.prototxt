@@ -9,8 +9,8 @@ layer {
     phase: TRAIN
   }
   hdf5_data_param {
-    source: "3d_data/train.txt"
-    batch_size: 30
+    source: "train.txt"
+    batch_size: 10
   }
 }
 layer {
@@ -33,6 +33,14 @@ layer {
     }
   }
 }
+
+layer {
+  name: "relu1"
+  type: "ReLU"
+  bottom: "conv"
+  top: "conv"
+}
+
 
 layer {
   name: "pool1"
@@ -66,7 +74,12 @@ layer {
     }
   }
 }
-
+layer {
+  name: "relu2"
+  type: "ReLU"
+  bottom: "upscore"
+  top: "upscore"
+}
 layer {
   name: "score"
   type: "Crop"
