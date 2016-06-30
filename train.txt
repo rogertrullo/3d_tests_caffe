@@ -1,0 +1,1 @@
+/home/roger/caffe1/caffe/examples/3d_data/train1.h5

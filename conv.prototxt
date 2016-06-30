@@ -1,0 +1,94 @@
+# Simple single-layer network to showcase editing model parameters.
+layer {
+  name: "data"
+  type: "HDF5Data"
+  top: "data"
+  top: "label"
+  
+  include {
+    phase: TRAIN
+  }
+  hdf5_data_param {
+    source: "3d_data/train.txt"
+    batch_size: 30
+  }
+}
+layer {
+  name: "conv"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv"
+  convolution_param {
+    num_output: 3
+    kernel_size: 5
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv"
+  top: "pool1"
+  pooling_param {
+    pool: AVE
+    kernel_size: 2
+    stride: 1
+  }
+}
+
+layer {
+  name: "upscore"
+  type: "Deconvolution"
+  bottom: "pool1"
+  top: "upscore"
+  param {
+    lr_mult: 0
+  }
+  convolution_param {
+    num_output: 5
+    bias_term: false
+    engine: CAFFE
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+  }
+}
+
+layer {
+  name: "score"
+  type: "Crop"
+  bottom: "upscore"
+  bottom: "data"
+  top: "score"
+  crop_param {
+    axis: 2
+    
+  }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "score"
+  bottom: "label"
+  top: "loss"
+  loss_param {
+    ignore_label: 255
+    normalize: false
+  }
+}
+
+
